@@ -17,7 +17,7 @@ authenticate,
 )
 
 
-router.route('/:id').get(authenticate, getEmployeeById); 
+router.route('/:id').get(authenticate, getEmployeeById); // ✅
 router.route('/logout').post(authenticate,logout); // ✅
 
 export default router;
