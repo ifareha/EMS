@@ -7,8 +7,10 @@ import { connectDb } from './src/config/db.js';
 import { logger } from './src/shared/logger.js';
 import { env } from './src/config/env.js';
 import employeRoute from './src/modules/employee/employee-routes.js';
-import adminRoute from './src/modules/admin/admin-routes.js';
+import adminRoute from './src/modules/auth/auth-routes.js';
+import attendanceRoute from './src/modules/attendace/attendance-route.js';
 import departmentRoute from './src/modules/department/department-route.js';
+import leaveRoute from './src/modules/leave/leave-routes.js'
 import cookieParser from 'cookie-parser';
 
 
@@ -29,7 +31,8 @@ app.get('/healthz', (req, res)=> res.json({
 app.use('/api/v1/employee',employeRoute)
 app.use('/api/v1/admin',adminRoute)
 app.use('/api/v1/department',departmentRoute)
-// app.use('/api/v1/attandence')
+app.use('/api/v1/attendance',attendanceRoute )
+app.use('/api/v1/leave',leaveRoute)
 
 
 const start = async() =>{
