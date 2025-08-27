@@ -31,17 +31,9 @@ app.use('/api/v1/admin',adminRoute)
 app.use('/api/v1/department',departmentRoute)
 // app.use('/api/v1/attandence')
 
+app.listen(3000,()=>{
+    connectDb();
+    console.log("server is running");
+    
+})
 
-const start = async() =>{
-    try {
-        await connectDb()
-        app.listen(env.PORT, () =>{
-            logger.info(`Server running on http://localhost:${env.PORT}`)
-        })
-    } catch (err) {
-        logger.error("server failed to start", err)
-        process.exit(1)
-        
-    }
-}
-start()
