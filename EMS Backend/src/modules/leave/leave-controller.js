@@ -3,22 +3,25 @@ import * as leaveService from './leave-service.js';
 
 
 export const applyLeave = asyncHandler(async (req, res) => {
-  const leave = await leaveService.applyLeave(req.user._id, req.body);
+    const { startDate, endDate, reason } = req.body;
+  const leave = await leaveService.applyLeave(req.user.id, 
+    startDate, endDate, reason
+  );
   res.status(201).json({ message: "Leave applied successfully", leave });
 });
 
 export const approveLeave = asyncHandler(async (req, res) => {
-  const leave = await leaveService.approveLeave(req.params.id, req.user._id);
+  const leave = await leaveService.approveLeave(req.params.id, req.user.id);
   res.status(200).json({ success: true, data: leave });
 });
 
 export const rejectLeave = asyncHandler(async (req, res) => {
-  const leave = await leaveService.rejectLeave(req.params.id, req.user._id);
+  const leave = await leaveService.rejectLeave(req.params.id, req.user.id);
   res.status(200).json({ success: true, data: leave });
 });
 
 export const myLeaves = asyncHandler(async (req, res) => {
-  const leaves = await leaveService.getMyLeaves(req.user._id);
+  const leaves = await leaveService.getLeavesByEmployee(req.user.id);
   res.status(200).json({ success: true, data: leaves });
 });
 

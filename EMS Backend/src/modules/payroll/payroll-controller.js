@@ -2,7 +2,7 @@ import * as payrollService from "./payroll-services.js";
 import { asyncHandler } from "../../shared/utils/asyncHandler.js";
 
 export const generatePayroll = asyncHandler(async (req, res) => {
-    const payroll = await payrollService.createPayroll(req.params.employeeId, req.body);
+    const payroll = await (await payrollService.createPayroll(req.params.employeeId, req.body))
     res.status(201).json({ success: true, data: payroll });
 });
 
@@ -15,7 +15,7 @@ export const payslip = asyncHandler(async (req, res) => {
 }
 });
 export const myPayrolls = asyncHandler(async (req, res) => {
-    const payrolls = await payrollService.getPayrollByEmployee(req.user._id);
+    const payrolls = await payrollService.getPayrollByEmployee(req.user.id);
     res.status(200).json({ success: true, data: payrolls });
 });
 

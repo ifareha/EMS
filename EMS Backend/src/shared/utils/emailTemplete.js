@@ -14,3 +14,11 @@ export const leaveApplicationTemplate = (name, fromDate, toDate, reason) =>
 export const leaveStatusUpdateTemplate = (name, status) =>
   `<p>Hi ${name},</p>
    <p>Your leave application has been <strong>${status}</strong>.</p>`;
+export const payrollGeneratedTemplate = (name, month, year, netSalary) =>
+  `<p>Hi ${name},</p>
+   <p>Your payroll for <strong>${month} ${year}</strong> has been generated.</p>
+   <p>Net Salary: ₹${netSalary}</p>`;
+export const payslipGeneratedTemplate = (name, month, year, payslipUrl) =>
+  `<p>Hi ${name},</p>
+    <p>Your payslip for <strong>${month} ${year}</strong> is ready.</p>
+    <p><a href="${payslipUrl}">Download Payslip</a></p>`;

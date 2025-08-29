@@ -1,7 +1,10 @@
 import { v2 as cloudinary } from "cloudinary";
+import PDFDocument from "pdfkit";
 import dotenv from "dotenv";
 import { logger } from "../shared/logger.js";
 import streamifier from "streamifier";
+
+
 dotenv.config();
 
 cloudinary.config({
@@ -25,6 +28,41 @@ export const uploadMedia = (fileBuffer, folder) => {
     streamifier.createReadStream(fileBuffer).pipe(stream);
   });
 };
+
+export const generatePdfBuffer = (payroll) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument();
+      const buffers = [];
+
+      doc.on("data", (chunk) => buffers.push(chunk));
+      doc.on("end", () => resolve(Buffer.concat(buffers)));
+
+      // PDF content
+      doc.fontSize(18).text("Company XYZ Pvt Ltd", { align: "center" });
+      doc.moveDown();
+      doc.fontSize(14).text(`Payslip for ${payroll.month} ${payroll.year}`, { align: "center" });
+      doc.moveDown();
+
+      doc.text(`Employee: ${payroll.employee.firstName} ${payroll.employee.lastName}`);
+      doc.text(`Employee ID: ${payroll.employee.employeeId}`);
+      doc.text(`Department: ${payroll.employee.department?.name || "-"}`);
+      doc.moveDown();
+
+      doc.text(`Basic: ₹${payroll.basic}`);
+      doc.text(`HRA: ₹${payroll.hra}`);
+      doc.text(`Allowances: ₹${payroll.allowances}`);
+      doc.text(`Deductions: ₹${payroll.deductions}`);
+      doc.moveDown();
+      doc.text(`Net Salary: ₹${payroll.netSalary}`, { underline: true });
+
+      doc.end();
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 export const deleteMediaFromCloudinary = async (publicId) => {
   try {
     await cloudinary.uploader.destroy(publicId);

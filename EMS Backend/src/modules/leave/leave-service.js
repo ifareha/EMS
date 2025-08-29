@@ -1,41 +1,44 @@
+import { logger } from "../../shared/logger.js";
 import { sendLeaveApplicationEmail, sendLeaveStatusUpdateEmail } from "../emailService/email-service.js";
 import { Employee } from "../employee/employee-model.js";
 import { Leave } from "./leave-model.js";
 
-export const applyLeave = async (employeeId, fromDate, toDate, reason) => {
+export const applyLeave = async (employeeId, startDate, endDate, reason) => {
   const employee = await Employee.findById(employeeId);
+  logger.info("employee", employee);
   const newLeave = new Leave({
     employee: employeeId,
-    fromDate,
-    toDate,
+    startDate,
+    endDate,
     reason,
     status: "pending",
   });
   await newLeave.save();
-  await sendLeaveApplicationEmail(employee.firstName, employee.email, fromDate, toDate, reason);
+  await sendLeaveApplicationEmail(employee.firstName, employee.email, startDate, endDate, reason);
   return newLeave;
 };
+
 
 export const approveLeave = async (leaveId, approverId) => {
   const employee = await Employee.findById(approverId);
     const leave = await Leave.findById(leaveId);
     if (!leave) throw new Error("Leave request not found");
-    if (leave.status !== "PENDING") throw new Error("Leave request already processed");
-    leave.status = "APPROVED"
+    if (leave.status !== "pending") throw new Error("Leave request already processed");
+    leave.status = "approved"
     leave.approvedBy = approverId;
     await leave.save();
-     await sendLeaveStatusUpdateEmail(employee.firstName, employee.email, "APPROVED");
+     await sendLeaveStatusUpdateEmail(employee.firstName, employee.email, "approved");
     return leave;
 }
 export const rejectLeave = async (leaveId, approverId) => {
   const employee = await Employee.findById(approverId);
     const leave = await Leave.findById(leaveId);
     if (!leave) throw new Error("Leave request not found");
-    if (leave.status !== "PENDING") throw new Error("Leave request already processed");
-    leave.status = "REJECTED"
+    if (leave.status !== "pending") throw new Error("Leave request already processed");
+    leave.status = "rejected"
     leave.approvedBy = approverId;
     await leave.save();
-      await sendLeaveStatusUpdateEmail(employee.firstName, employee.email, "REJECTED");
+      await sendLeaveStatusUpdateEmail(employee.firstName, employee.email, "rejected");
     return leave;
 
 }

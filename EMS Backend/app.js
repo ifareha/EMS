@@ -16,6 +16,7 @@ import departmentRoute from './src/modules/department/department-route.js';
 import leaveRoute from './src/modules/leave/leave-routes.js'
 import assetRoute from './src/modules/asset/asset-routes.js'
 import performanceRoute from './src/modules/performance/performance-routes.js'
+import payrollRoute from './src/modules/payroll/payroll-routes.js'
 
 
 
@@ -58,6 +59,7 @@ app.use('/api/v1/attendance',attendanceRoute )
 app.use('/api/v1/leave',leaveRoute)
 app.use('/api/v1/asset',assetRoute )
 app.use('/api/v1/performance',performanceRoute )
+app.use('/api/v1/payroll',payrollRoute )
 
 app.use((err, req, res, next) => {
   logger.error(err.stack);

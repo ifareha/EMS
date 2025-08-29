@@ -1,6 +1,6 @@
-import transporter from "../../config/mailer";
+import transporter from "../../config/mailer.js";
 import { logger } from "../../shared/logger.js";
-import { attendanceClockInTemplate, attendanceClockOutTemplate, leaveApplicationTemplate, leaveStatusUpdateTemplate } from "../../shared/utils/emailTemplete.js";
+import { attendanceClockInTemplate, attendanceClockOutTemplate, leaveApplicationTemplate, leaveStatusUpdateTemplate, payrollGeneratedTemplate, payslipGeneratedTemplate } from "../../shared/utils/emailTemplete.js";
 
 
 export const sendEmail = async (to, subject, html) => {
@@ -35,4 +35,14 @@ export const sendLeaveApplicationEmail = async (name, email, fromDate, toDate, r
 export const sendLeaveStatusUpdateEmail = async (name, email, status) => {
   const html = leaveStatusUpdateTemplate(name, status);
   await sendEmail(email, "Leave Status Update", html);
+};
+
+export const sendPayrollGeneratedEmail = async (name, email, month, year, netSalary) => {
+  const html = payrollGeneratedTemplate(name, month, year, netSalary);
+  await sendEmail(email, "Payroll Generated", html);
+};
+
+export const sendPayslipEmail = async (name, email, month, year, payslipUrl) => {
+  const html = payslipGeneratedTemplate(name, month, year, payslipUrl);
+  await sendEmail(email, "Your Payslip is Ready", html);
 };

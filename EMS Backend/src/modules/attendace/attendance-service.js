@@ -7,11 +7,11 @@ import { Attendance } from "./attendance-model.js";
 // import transporter from "../../config/mailer.js";
 // import { attendanceClockInTemplate } from "../../shared/utils/emailTemplete.js";
 import { sendClockInEmail, sendClockOutEmail } from "../emailService/email-service.js";
+import { logger } from "../../shared/logger.js";
 
 const normalizeDate = (d) =>{
  const date = new Date(d);
- date.setHours(0, 0, 0, 0);
-    return date;
+ return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
 export const checkIn = async ({ employeeId, lat, lng, ipAddress, metadata }) => {
@@ -20,9 +20,12 @@ export const checkIn = async ({ employeeId, lat, lng, ipAddress, metadata }) => 
   const month = today.getMonth();
 
   const employee = await Employee.findById(employeeId);
+  if (!employee) {
+    throw new Error("Employee not found");
+  }
   let monthly = await Attendance.findOne({ employee: employeeId, year, month });
   if (!monthly) {
-    monthly = new Attendance({ employee: employeeId, year, month, attendances: [] });
+    monthly = new Attendance({ employee:  new mongoose.Types.ObjectId(employee._id), year, month, attendances: [] });
   }
 
   const dayRecord = monthly.attendances.find(a => normalizeDate(a.date).getTime() === today.getTime());
@@ -60,12 +63,21 @@ export const checkIn = async ({ employeeId, lat, lng, ipAddress, metadata }) => 
 export const checkOut = async ({ employeeId, lat, lng, ipAddress, metadata }) => {
   const today = normalizeDate(new Date());
   const year = today.getFullYear();
-  const month = today.getMonth();
-const employee = await Employee.findById(employeeId);
-  const monthly = await Attendance.findOne({ employee: employeeId, year, month });
-  if (!monthly) throw new Error("Check-in required before check-out");
+  const month = today.getMonth() + 1;
 
-  const dayRecord = monthly.attendances.find(a => normalizeDate(a.date).getTime() === today.getTime());
+  console.log("Looking for:", { employeeId, year, month });
+
+const employee = await Employee.findById(employeeId);
+  if (!employee) {
+    throw new Error("Employee not found");
+  }
+  const monthly = await Attendance.findOne({ employee: employeeId });
+  if (!monthly) {
+    throw new Error("No attendance record found for this month");
+  }
+
+
+  const dayRecord = monthly.attendances.find(a =>normalizeDate(a.date).getTime() === today.getTime());
   if (!dayRecord || !dayRecord.checkIn) {
     throw new Error("Check-in required before check-out");
   }

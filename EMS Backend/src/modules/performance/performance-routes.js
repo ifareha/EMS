@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/:employeeId/goals", authenticate, authorize("ADMIN", "MANAGER"), performanceController.addGoals);//✅
 router.patch("/:id/goals", authenticate, performanceController.updateGoals);//✅
 router.patch("/:id/review", authenticate, authorize("ADMIN", "MANAGER"), performanceController.review);//✅
-router.get("/my", authenticate, performanceController.getPerformanceByEmployee);  
+router.get("/my", authenticate, performanceController.getPerformanceByEmployee);  //✅
 router.get("/", authenticate, authorize("ADMIN", "MANAGER"), performanceController.getAllPerformances); //✅
 
 

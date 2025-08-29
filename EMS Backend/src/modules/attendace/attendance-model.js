@@ -23,12 +23,12 @@ const dailyAttendanceSchema = new mongoose.Schema({
 
 const attendanceSchema = new mongoose.Schema({
    employee: { type: mongoose.Schema.Types.ObjectId, ref: "Employee", required: true },
-  month: { type: Number, min: 0, max: 11, required: true }, 
+  month: { type: Number, min: 1, max: 12, required: true }, 
   year: { type: Number, required: true },
   totalWorkingDays: { type: Number, default: 0 },
   attendances: [dailyAttendanceSchema]
 }, { timestamps: true });
 
-attendanceSchema.index({ employee: 1, date: 1 }, { unique: true });
+attendanceSchema.index({ employee: 1, year: 1, month: 1 }, { unique: true });
 
 export const Attendance = mongoose.model("Attendance", attendanceSchema);

@@ -10,6 +10,7 @@ const payrollSchema = new mongoose.Schema({
   deductions: { type: Number, default: 0 },
   netSalary: { type: Number, required: true },
   payslipUrl: { type: String }, 
+  status: { type: String, enum: ["pending", "processed"], default: "pending" }
 }, { timestamps: true });
 
 export const Payroll = mongoose.model("Payroll", payrollSchema);

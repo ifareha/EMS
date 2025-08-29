@@ -25,16 +25,29 @@ all done ✅
     
 
     ***attendance***
-
+check in ✅
+check out ✅
+get my ✅
 
 
     ***leave****
-
+apply leave ✅
+approved ✅
+reject ✅
+my-leave ✅
+all leaves ✅
 
 
 
     ***payroll***
-
+create ✅
+generate slip✅
+my payroll ✅
+allPayrolls ✅
 
 
     ****performance****
+addGoals ✅  
+review ✅
+getAllPerformances ✅
+get my performce ✅

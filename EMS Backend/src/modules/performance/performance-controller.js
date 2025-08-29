@@ -15,12 +15,12 @@ export const updateGoals = asyncHandler(async (req, res) => {
 
 export const review = asyncHandler(async (req, res) => {
       const { rating, feedback } = req.body;
-    const performance = await performanceService.reviewPerformance(req.params.id, req.user._id, rating, feedback);
+    const performance = await performanceService.reviewPerformance(req.params.id, req.user.id, rating, feedback);
     res.status(200).json({ success: true, data: performance });
 })
 
 export const getPerformanceByEmployee = asyncHandler(async (req, res) => {
-    const records = await performanceService.getPerformanceByEmployee(req.user._id);
+    const records = await performanceService.getPerformanceByEmployee(req.user.id);
     res.status(200).json({ success: true, data: records });
 })
 export const getAllPerformances = asyncHandler(async (req, res) => {
