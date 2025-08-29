@@ -5,7 +5,6 @@ import { Leave } from "./leave-model.js";
 
 export const applyLeave = async (employeeId, startDate, endDate, reason) => {
   const employee = await Employee.findById(employeeId);
-  logger.info("employee", employee);
   const newLeave = new Leave({
     employee: employeeId,
     startDate,
