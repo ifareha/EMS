@@ -18,8 +18,10 @@ export const loginService = async (email, passwordHash) => {
   return { employee, token };
 };
 export const getAllEmployeesService = async () => {
-  return Employee.find().populate("department");
+  return Employee.find({ role: { $in: ["EMPLOYEE", "MANAGER", "ACCOUNTANT"] } })
+    .populate("department");
 };
+
 
 export const getEmployeeByIdService = async (id) => {
   const employee = await Employee.findById(id).populate("department");
