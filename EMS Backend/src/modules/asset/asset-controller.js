@@ -1,4 +1,5 @@
-import { asyncHandler } from "../../shared/utils/asyncHandler.js";
+import { asyncHandler } from "../../shared/utils/asyncHandler.js"; 
+import * as assetService from './asset-service.js';
 
 export const createAsset = asyncHandler( async (req, res) => {
       const asset = await assetService.createAsset(req.body);

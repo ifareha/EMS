@@ -1,7 +1,7 @@
        *****EMPLOYEE*****
 login  ✅
 get-employee-byID ✅
-upload doc 
+upload doc  ✅
 logout ✅ 
 
       *****ADMIN*****
@@ -20,6 +20,21 @@ get all department✅
 get department by id ✅
 delete depart✅
 
- 
-
+    ***** assets****
+all done ✅
     
+
+    ***attendance***
+
+
+
+    ***leave****
+
+
+
+
+    ***payroll***
+
+
+
+    ****performance****

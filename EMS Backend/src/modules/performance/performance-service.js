@@ -1,4 +1,4 @@
-import Performance from './performance-model.js';
+import {Performance} from './performance-model.js';
 
 export const addPerformanceGoals = async (employeeId, cycle, goals) => {
   const performance = new Performance({
@@ -13,7 +13,7 @@ export const addPerformanceGoals = async (employeeId, cycle, goals) => {
 export const updateGoalStatus = async (performanceId, goalIndex, status) => {
   const performance = await Performance.findById(performanceId);
   if (!performance) throw new Error("Performance record not found");
-
+   
   if (performance.goals[goalIndex]) {
     performance.goals[goalIndex].status = status;
   }
@@ -33,7 +33,7 @@ export const reviewPerformance = async (performanceId, reviewerId, rating, feedb
 };
 
 export const getPerformanceByEmployee = async (employeeId) => {
-  return Performance.find({ employee: employeeId }).populate("reviewedBy", "firstName lastName role");
+  return Performance.findOne({ employee: employeeId }).populate("reviewedBy", "firstName lastName role");
 };
 
 export const getAllPerformances = async () => {

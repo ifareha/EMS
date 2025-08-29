@@ -14,7 +14,7 @@ router.route('/upload-doc').post( upload.fields([
 ]),
 authenticate,
     uploadDocs
-)
+) // ✅
 
 
 router.route('/:id').get(authenticate, getEmployeeById); // ✅

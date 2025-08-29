@@ -6,7 +6,7 @@ const performanceSchema = new mongoose.Schema({
     ref: "Employee",
     required: true,
   },
-  cycle: { type: String, required: true }, // e.g. "Q1-2025", "2025-H1"
+  cycle: { type: String, required: true }, 
   goals: [
     {
       title: { type: String, required: true },

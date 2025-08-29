@@ -32,6 +32,7 @@ const employeeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Department",
   },
+  
   phoneNumber: {
     type: String,
     minlength: 10,

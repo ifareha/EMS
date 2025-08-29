@@ -10,14 +10,20 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 
 })
-export const uploadMedia = async (fileBuffer, folder, cb) => {
-  const stream = cloudinary.uploader.upload_stream(
-    { folder, resource_type: "auto" },
-    (error, result) => {
-      cb(error, result);
-    }
-  );
-  streamifier.createReadStream(fileBuffer).pipe(stream);
+export const uploadMedia = (fileBuffer, folder) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: "auto" },
+      (error, result) => {
+        if (error) {
+          logger.error("Cloudinary upload error:", error);
+          return reject(error);
+        }
+        resolve(result);
+      }
+    );
+    streamifier.createReadStream(fileBuffer).pipe(stream);
+  });
 };
 export const deleteMediaFromCloudinary = async (publicId) => {
   try {

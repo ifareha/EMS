@@ -107,3 +107,4 @@ export const deleteEmployee = asyncHandler(async (req, res) => {
   await Employee.findByIdAndDelete(employeeId);
   res.status(200).json({ success: true, message: "Employee deleted" });
 });
+

@@ -1,4 +1,4 @@
-import { Asset } from "./asset-model";
+import { Asset } from "./asset-model.js";
 
 export const createAsset = async (data) => {
   const asset = new Asset(data);
