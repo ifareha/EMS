@@ -17,10 +17,9 @@ export const applyLeave = async (employeeId, startDate, endDate, reason) => {
   return newLeave;
 };
 
-
 export const approveLeave = async (leaveId, approverId) => {
-  const employee = await Employee.findById(approverId);
     const leave = await Leave.findById(leaveId);
+    const employee = await Employee.findById(leave.employee);
     if (!leave) throw new Error("Leave request not found");
     if (leave.status !== "pending") throw new Error("Leave request already processed");
     leave.status = "approved"
@@ -30,8 +29,8 @@ export const approveLeave = async (leaveId, approverId) => {
     return leave;
 }
 export const rejectLeave = async (leaveId, approverId) => {
-  const employee = await Employee.findById(approverId);
     const leave = await Leave.findById(leaveId);
+    const employee = await Employee.findById(leave.employee);
     if (!leave) throw new Error("Leave request not found");
     if (leave.status !== "pending") throw new Error("Leave request already processed");
     leave.status = "rejected"

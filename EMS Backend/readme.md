@@ -21,7 +21,10 @@ get department by id ✅
 delete depart✅
 
     ***** assets****
-all done ✅
+create assets ✅
+assign  ✅
+return ✅
+all assets ✅
     
 
     ***attendance***
